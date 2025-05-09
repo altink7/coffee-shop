@@ -19,7 +19,7 @@ public class CoffeeController {
     }
 
     /**
-     * GET : retrieve all coffees
+     * GET : retrieve all coffees HEHE :D
      */
     @GetMapping
     public List<Coffee> getAllCoffees() {
