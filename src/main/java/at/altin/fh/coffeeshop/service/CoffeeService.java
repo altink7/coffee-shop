@@ -10,7 +10,7 @@ import java.util.List;
 public class CoffeeService {
     private List<Coffee> coffees = new ArrayList<>();
 
-
+//Test für git
     public void initializeCoffees() {
         coffees.add(new Coffee("melange", "coffee", 4.5f));
         coffees.add(new Coffee("cappuccino", "coffee", 2.5f));
@@ -24,6 +24,9 @@ public class CoffeeService {
     public List<Coffee> getAllCoffees() {
         initializeCoffees();
         return coffees;
+    }
+    public void gittets(){
+
     }
 
     /**
