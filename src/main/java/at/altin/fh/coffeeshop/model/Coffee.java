@@ -1,14 +1,14 @@
 package at.altin.fh.coffeeshop.model;
 
-public class Coffe {
+public class Coffee {
     private String name;
     private String type;
     private double price;
 
-    public Coffe() {
+    public Coffee() {
     }
 
-    public Coffe(String name, String type, double price) {
+    public Coffee(String name, String type, double price) {
         this.name = name;
         this.type = type;
         this.price = price;
