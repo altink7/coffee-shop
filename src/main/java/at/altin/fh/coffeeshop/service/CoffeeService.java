@@ -10,7 +10,7 @@ import java.util.List;
 public class CoffeeService {
     private List<Coffee> coffees = new ArrayList<>();
 
-//Test für git
+    //Test für git
     public void initializeCoffees() {
         coffees.add(new Coffee("melange", "coffee", 4.5f));
         coffees.add(new Coffee("cappuccino", "coffee", 2.5f));
@@ -25,8 +25,19 @@ public class CoffeeService {
         initializeCoffees();
         return coffees;
     }
-    public void gittets(){
 
+
+    /**
+     * Get a Coffee By Name
+     */
+    public Coffee getCoffeeByName(String name) {
+        for (Coffee coffeObj : coffees) {
+            if (coffeObj.getName().equals(name)) {
+                // First Coffee is being returned not all of them :)
+                return coffeObj;
+            }
+        }
+        return null;
     }
 
     /**

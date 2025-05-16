@@ -27,6 +27,14 @@ public class CoffeeController {
     }
 
     /**
+     * GET : get Coffe By Name
+     */
+    @GetMapping("/{name}")
+    public Coffee getCoffeeByName(@PathVariable String name) {
+        return coffeeService.getCoffeeByName(name);
+    }
+
+    /**
      * POST : add a Coffee to the Coffee List
      */
     @PostMapping
