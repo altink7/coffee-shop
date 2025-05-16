@@ -1,0 +1,92 @@
+{
+	"info": {
+		"_postman_id": "59198b56-1db5-4610-bd2a-f048afc869ca",
+		"name": "Coffee Shop EWW",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23108894"
+	},
+	"item": [
+		{
+			"name": "Get All Coffees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{SERVER_COFFEE_SHOP}}/coffees"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Coffee By Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{SERVER_COFFEE_SHOP}}/coffees"
+			},
+			"response": []
+		},
+		{
+			"name": "Add a new Coffee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Test1\",\n  \"type\": \"coffee\",\n  \"price\": 7.7\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/coffees"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Coffee",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"melange\",\n  \"type\": \"coffee\",\n  \"price\": 7.7\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/coffees"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Coffee",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"melange\",\n  \"type\": \"coffee\",\n  \"price\": 7.7\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{SERVER_COFFEE_SHOP}}/coffees"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "SERVER_COFFEE_SHOP",
+			"value": "http://localhost:8080",
+			"type": "default"
+		}
+	]
+}
