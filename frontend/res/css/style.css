@@ -1,0 +1,27 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    margin-top: 2rem;
+}
+
+.coffee-picture {
+    width: 30%;
+    max-width: 150px;
+    max-height: 150px;
+    margin-right: 2rem;
+}
+
+#coffee-footer {
+    position: fixed;
+    bottom: 0;
+}
+
+#coffee-footer a {
+    display: flex;
+    justify-content: center;
+}
+
