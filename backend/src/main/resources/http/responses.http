@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
   "name": "Test1",
-  "type": "coffee",
+  "coffeeType": "coffee",
   "price": 7.7
 }
 
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
   "name": "melange",
-  "type": "coffee",
+  "coffeeType": "coffee",
   "price": 7.7
 }
 
@@ -29,6 +29,6 @@ Content-Type: application/json
 
 {
   "name": "melange",
-  "type": "coffee",
+  "coffeeType": "coffee",
   "price": 7.7
 }

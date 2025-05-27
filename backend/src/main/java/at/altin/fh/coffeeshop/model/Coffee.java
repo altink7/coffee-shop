@@ -1,8 +1,19 @@
 package at.altin.fh.coffeeshop.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "coffees")
 public class Coffee {
+    @Id
+    @GeneratedValue
+    @Column(name = "coffee_id")
+    private Long id;
+
+    @Column(name = "coffee_name")
     private String name;
-    private String type;
+
+    private String coffeeType;
     private double price;
 
     public Coffee() {
@@ -10,16 +21,16 @@ public class Coffee {
 
     public Coffee(String name, String type, double price) {
         this.name = name;
-        this.type = type;
+        this.coffeeType = type;
         this.price = price;
     }
 
-    public String getType() {
-        return type;
+    public String getCoffeeType() {
+        return coffeeType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCoffeeType(String coffeeType) {
+        this.coffeeType = coffeeType;
     }
 
     public String getName() {
@@ -36,5 +47,13 @@ public class Coffee {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
