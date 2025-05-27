@@ -16,6 +16,19 @@ public class Coffee {
     private String coffeeType;
     private double price;
 
+    //https://www.baeldung.com/hibernate-one-to-many
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public Coffee() {
     }
 
