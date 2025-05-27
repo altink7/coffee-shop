@@ -4,6 +4,7 @@ import at.altin.fh.coffeeshop.exception.EntityAlreadyExistsException;
 import at.altin.fh.coffeeshop.exception.EntityNotFoundException;
 import at.altin.fh.coffeeshop.model.Coffee;
 import at.altin.fh.coffeeshop.repository.CoffeeRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CoffeeService {
     private final CoffeeRepository coffeeRepository;
 
@@ -41,12 +43,12 @@ public class CoffeeService {
      * Add a coffee to the List of Coffees
      */
     public Coffee addCoffee(Coffee coffee) {
-        Optional<Coffee> savedCoffee = coffeeRepository.findById(coffee.getId());
+        Optional<Coffee> savedCoffee = coffeeRepository.findByName(coffee.getName());
 
         if (savedCoffee.isPresent()) {
             throw new EntityAlreadyExistsException(String.format("Coffee: %s already exists", coffee.getName()));
         }
-        
+
         return coffeeRepository.save(coffee);
     }
 
@@ -72,7 +74,7 @@ public class CoffeeService {
      * update/patch Coffee
      */
     public Coffee updateCoffee(Coffee coffee) {
-        Optional<Coffee> savedCoffee = coffeeRepository.findById(coffee.getId());
+        Optional<Coffee> savedCoffee = coffeeRepository.findByName(coffee.getName());
 
         if (savedCoffee.isEmpty()) {
             throw new EntityNotFoundException(
