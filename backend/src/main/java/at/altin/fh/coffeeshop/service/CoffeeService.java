@@ -1,6 +1,7 @@
 package at.altin.fh.coffeeshop.service;
 
 import at.altin.fh.coffeeshop.exception.EntityAlreadyExistsException;
+import at.altin.fh.coffeeshop.exception.EntityNotFoundException;
 import at.altin.fh.coffeeshop.model.Coffee;
 import at.altin.fh.coffeeshop.repository.CoffeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @Service
 public class CoffeeService {
-    private CoffeeRepository coffeeRepository;
+    private final CoffeeRepository coffeeRepository;
 
     @Autowired
     public CoffeeService(CoffeeRepository coffeeRepository) {
@@ -30,7 +31,10 @@ public class CoffeeService {
      * Get a Coffee By Name
      */
     public Coffee getCoffeeByName(String name) {
-        return coffeeRepository.findByName(name);
+        return coffeeRepository.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Coffee: %s does not exist", name)
+                ));
     }
 
     /**
@@ -42,49 +46,44 @@ public class CoffeeService {
         if (savedCoffee.isPresent()) {
             throw new EntityAlreadyExistsException(String.format("Coffee: %s already exists", coffee.getName()));
         }
+        
+        return coffeeRepository.save(coffee);
     }
 
     /**
      * delete Coffee
      */
     public boolean deleteCoffee(Coffee coffee) {
-        // Important: make sure coffees contains no null elements, because NPE
-        for (Coffee coffeObj : coffees) {
-            if (coffeObj.getName().equals(coffee.getName())) {
-                return coffees.remove(coffeObj);
-            }
-        }
-
-        return false;
+        coffeeRepository.delete(coffee);
+        return true;
     }
 
     /**
      * delete Coffee with name
      */
     public boolean deleteCoffee(String name) {
-        // Important: make sure coffees contains no null elements, because NPE
-        for (Coffee coffeObj : coffees) {
-            if (coffeObj.getName().equals(name)) {
-                return coffees.remove(coffeObj);
-            }
-        }
+        coffeeRepository.deleteByName(name);
 
-        return false;
+        return true;
     }
 
 
     /**
-     * update Coffee
+     * update/patch Coffee
      */
     public Coffee updateCoffee(Coffee coffee) {
-        for (Coffee coffeObj : coffees) {
-            if (coffeObj.getName().equals(coffee.getName())) {
-                coffees.remove(coffeObj);
-                coffees.add(coffee);
-                return coffee;
-            }
+        Optional<Coffee> savedCoffee = coffeeRepository.findById(coffee.getId());
+
+        if (savedCoffee.isEmpty()) {
+            throw new EntityNotFoundException(
+                    String.format("Coffee: %s does not exist", coffee.getName())
+            );
         }
 
-        return null;
+        if (coffee.getCoffeeType() == null) {
+            throw new RuntimeException();
+        }
+
+        return coffeeRepository.save(coffee);
     }
 }

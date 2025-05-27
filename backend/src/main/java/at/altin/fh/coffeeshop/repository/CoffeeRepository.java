@@ -4,7 +4,11 @@ import at.altin.fh.coffeeshop.model.Coffee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
-    Coffee findByName(String name);
+    Optional<Coffee> findByName(String name);
+
+    void deleteByName(String name);
 }
