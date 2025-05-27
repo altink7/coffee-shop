@@ -1,29 +1,28 @@
 package at.altin.fh.coffeeshop.service;
 
+import at.altin.fh.coffeeshop.exception.EntityAlreadyExistsException;
 import at.altin.fh.coffeeshop.model.Coffee;
+import at.altin.fh.coffeeshop.repository.CoffeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CoffeeService {
-    private List<Coffee> coffees = new ArrayList<>();
+    private CoffeeRepository coffeeRepository;
 
-    //Test für git
-    public void initializeCoffees() {
-        coffees.add(new Coffee("melange", "coffee", 4.5f));
-        coffees.add(new Coffee("cappuccino", "coffee", 2.5f));
-        coffees.add(new Coffee("cappuccino", "tee", 3.5f));
-        coffees.add(new Coffee("ice cream", "vanilla", 5.5f));
+    @Autowired
+    public CoffeeService(CoffeeRepository coffeeRepository) {
+        this.coffeeRepository = coffeeRepository;
     }
 
     /**
      * Get all coffees
      */
     public List<Coffee> getAllCoffees() {
-        initializeCoffees();
-        return coffees;
+        return coffeeRepository.findAll();
     }
 
 
@@ -31,26 +30,18 @@ public class CoffeeService {
      * Get a Coffee By Name
      */
     public Coffee getCoffeeByName(String name) {
-        for (Coffee coffeObj : coffees) {
-            if (coffeObj.getName().equals(name)) {
-                // First Coffee is being returned not all of them :)
-                return coffeObj;
-            }
-        }
-        return null;
+        return coffeeRepository.findByName(name);
     }
 
     /**
      * Add a coffee to the List of Coffees
      */
     public Coffee addCoffee(Coffee coffee) {
-        if (coffee == null) {
-            System.out.println("WARN: null object");
-            return null;
-        }
+        Optional<Coffee> savedCoffee = coffeeRepository.findById(coffee.getId());
 
-        coffees.add(coffee);
-        return coffee;
+        if (savedCoffee.isPresent()) {
+            throw new EntityAlreadyExistsException(String.format("Coffee: %s already exists", coffee.getName()));
+        }
     }
 
     /**
