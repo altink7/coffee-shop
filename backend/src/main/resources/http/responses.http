@@ -1,6 +1,4 @@
 ###
-#Get and Initialize , please call first before doing anything else!!!
-###
 GET http://localhost:8080/coffees
 
 ###
@@ -8,7 +6,7 @@ POST http://localhost:8080/coffees
 Content-Type: application/json
 
 {
-  "name": "Test1",
+  "name": "melange",
   "coffeeType": "coffee",
   "price": 7.7
 }

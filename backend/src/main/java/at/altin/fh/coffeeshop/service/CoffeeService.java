@@ -5,7 +5,9 @@ import at.altin.fh.coffeeshop.exception.EntityAlreadyExistsException;
 import at.altin.fh.coffeeshop.exception.EntityNotFoundException;
 import at.altin.fh.coffeeshop.mapper.CoffeeMapper;
 import at.altin.fh.coffeeshop.model.Coffee;
+import at.altin.fh.coffeeshop.model.Customer;
 import at.altin.fh.coffeeshop.repository.CoffeeRepository;
+import at.altin.fh.coffeeshop.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,14 @@ import java.util.Optional;
 @Transactional
 public class CoffeeService {
     private final CoffeeRepository coffeeRepository;
+    private final CustomerRepository customerRepository;
     private final CoffeeMapper coffeeMapper;
 
 
     @Autowired
-    public CoffeeService(CoffeeRepository coffeeRepository, CoffeeMapper coffeeMapper) {
+    public CoffeeService(CoffeeRepository coffeeRepository, CustomerRepository customerRepository, CoffeeMapper coffeeMapper) {
         this.coffeeRepository = coffeeRepository;
+        this.customerRepository = customerRepository;
         this.coffeeMapper = coffeeMapper;
     }
 
@@ -57,7 +61,12 @@ public class CoffeeService {
             throw new EntityAlreadyExistsException(String.format("Coffee: %s already exists", coffee.getName()));
         }
 
-        Coffee repoCoffee = coffeeRepository.save(coffeeMapper.toEntity(coffee));
+        Coffee entity = coffeeMapper.toEntity(coffee);
+        Customer customer = new Customer().randomizeData();
+        entity.setCustomer(customer);
+        customerRepository.save(customer);
+
+        Coffee repoCoffee = coffeeRepository.save(entity);
 
         return coffeeMapper.toDTO(repoCoffee);
     }
