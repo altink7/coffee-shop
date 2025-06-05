@@ -44,12 +44,11 @@ public class Customer {
         String[] lastNames = {"Doe", "Smith", "Johnson", "Williams"};
         String[] addresses = {"123 Main St", "456 Elm St", "789 Oak St", "101 Pine St"};
         String[] descriptions = {"Regular customer", "VIP customer", "New customer", "Returning customer"};
-        int randomIndex = (int) (Math.random() * firstNames.length);
 
-        this.firstName = firstNames[randomIndex];
-        this.lastName = lastNames[randomIndex];
-        this.address = addresses[randomIndex];
-        this.description = descriptions[randomIndex];
+        this.firstName = firstNames[(int) (Math.random() * firstNames.length)];
+        this.lastName = lastNames[(int) (Math.random() * lastNames.length)];
+        this.address = addresses[(int) (Math.random() * addresses.length)];
+        this.description = descriptions[(int) (Math.random() * descriptions.length)];
         // Random date within the last 30 days
         this.createdAt = LocalDateTime.now().minusDays((int) (Math.random() * 30));
 
