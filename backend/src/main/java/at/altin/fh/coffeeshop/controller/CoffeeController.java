@@ -1,6 +1,6 @@
 package at.altin.fh.coffeeshop.controller;
 
-import at.altin.fh.coffeeshop.model.Coffee;
+import at.altin.fh.coffeeshop.dto.CoffeeDTO;
 import at.altin.fh.coffeeshop.service.CoffeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class CoffeeController {
      * GET : retrieve all coffees HEHE :D
      */
     @GetMapping
-    public List<Coffee> getAllCoffees() {
+    public List<CoffeeDTO> getAllCoffees() {
         return coffeeService.getAllCoffees();
     }
 
@@ -30,7 +30,7 @@ public class CoffeeController {
      * GET : get Coffe By Name
      */
     @GetMapping("/{name}")
-    public Coffee getCoffeeByName(@PathVariable String name) {
+    public CoffeeDTO getCoffeeByName(@PathVariable String name) {
         return coffeeService.getCoffeeByName(name);
     }
 
@@ -38,7 +38,7 @@ public class CoffeeController {
      * POST : add a Coffee to the Coffee List
      */
     @PostMapping
-    public Coffee addCoffee(@RequestBody Coffee coffee) {
+    public CoffeeDTO addCoffee(@RequestBody CoffeeDTO coffee) {
         return coffeeService.addCoffee(coffee);
     }
 
@@ -46,7 +46,7 @@ public class CoffeeController {
      * DELETE:  deletes a coffee from the Coffee List
      */
     @DeleteMapping
-    public boolean deleteCoffee(@RequestBody Coffee coffee) {
+    public boolean deleteCoffee(@RequestBody CoffeeDTO coffee) {
         return coffeeService.deleteCoffee(coffee);
     }
 
@@ -62,7 +62,7 @@ public class CoffeeController {
      * PUT:  updates a coffee from the Coffee List
      */
     @PutMapping
-    public Coffee updateCoffee(@RequestBody Coffee coffee) {
+    public CoffeeDTO updateCoffee(@RequestBody CoffeeDTO coffee) {
         return coffeeService.updateCoffee(coffee);
     }
 }

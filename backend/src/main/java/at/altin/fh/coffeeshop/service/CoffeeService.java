@@ -1,7 +1,9 @@
 package at.altin.fh.coffeeshop.service;
 
+import at.altin.fh.coffeeshop.dto.CoffeeDTO;
 import at.altin.fh.coffeeshop.exception.EntityAlreadyExistsException;
 import at.altin.fh.coffeeshop.exception.EntityNotFoundException;
+import at.altin.fh.coffeeshop.mapper.CoffeeMapper;
 import at.altin.fh.coffeeshop.model.Coffee;
 import at.altin.fh.coffeeshop.repository.CoffeeRepository;
 import jakarta.transaction.Transactional;
@@ -15,48 +17,56 @@ import java.util.Optional;
 @Transactional
 public class CoffeeService {
     private final CoffeeRepository coffeeRepository;
+    private final CoffeeMapper coffeeMapper;
+
 
     @Autowired
-    public CoffeeService(CoffeeRepository coffeeRepository) {
+    public CoffeeService(CoffeeRepository coffeeRepository, CoffeeMapper coffeeMapper) {
         this.coffeeRepository = coffeeRepository;
+        this.coffeeMapper = coffeeMapper;
     }
 
     /**
      * Get all coffees
      */
-    public List<Coffee> getAllCoffees() {
-        return coffeeRepository.findAll();
+    public List<CoffeeDTO> getAllCoffees() {
+        List<Coffee> coffeeList = coffeeRepository.findAll();
+        return coffeeMapper.toDTO(coffeeList);
     }
 
 
     /**
      * Get a Coffee By Name
      */
-    public Coffee getCoffeeByName(String name) {
-        return coffeeRepository.findByName(name)
+    public CoffeeDTO getCoffeeByName(String name) {
+        Coffee coffee = coffeeRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Coffee: %s does not exist", name)
                 ));
+
+        return coffeeMapper.toDTO(coffee);
     }
 
     /**
      * Add a coffee to the List of Coffees
      */
-    public Coffee addCoffee(Coffee coffee) {
+    public CoffeeDTO addCoffee(CoffeeDTO coffee) {
         Optional<Coffee> savedCoffee = coffeeRepository.findByName(coffee.getName());
 
         if (savedCoffee.isPresent()) {
             throw new EntityAlreadyExistsException(String.format("Coffee: %s already exists", coffee.getName()));
         }
 
-        return coffeeRepository.save(coffee);
+        Coffee repoCoffee = coffeeRepository.save(coffeeMapper.toEntity(coffee));
+
+        return coffeeMapper.toDTO(repoCoffee);
     }
 
     /**
      * delete Coffee
      */
-    public boolean deleteCoffee(Coffee coffee) {
-        coffeeRepository.delete(coffee);
+    public boolean deleteCoffee(CoffeeDTO coffee) {
+        coffeeRepository.delete(coffeeMapper.toEntity(coffee));
         return true;
     }
 
@@ -73,7 +83,7 @@ public class CoffeeService {
     /**
      * update/patch Coffee
      */
-    public Coffee updateCoffee(Coffee coffee) {
+    public CoffeeDTO updateCoffee(CoffeeDTO coffee) {
         Optional<Coffee> savedCoffee = coffeeRepository.findByName(coffee.getName());
 
         if (savedCoffee.isEmpty()) {
@@ -86,6 +96,8 @@ public class CoffeeService {
             throw new RuntimeException();
         }
 
-        return coffeeRepository.save(coffee);
+        Coffee repoCoffee = coffeeRepository.save(coffeeMapper.toEntity(coffee));
+
+        return coffeeMapper.toDTO(repoCoffee);
     }
 }

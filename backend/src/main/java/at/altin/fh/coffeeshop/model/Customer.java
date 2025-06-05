@@ -21,6 +21,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Coffee> coffees;
 
+    public Customer() {
+    }
+
     public Customer(String firstName, String lastName, String address, String description) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,5 +78,13 @@ public class Customer {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Coffee> getCoffees() {
+        return coffees;
+    }
+
+    public void setCoffees(List<Coffee> coffees) {
+        this.coffees = coffees;
     }
 }
